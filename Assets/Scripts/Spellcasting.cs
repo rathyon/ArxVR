@@ -457,7 +457,8 @@ public class Spellcasting : MonoBehaviour {
             {
                 drawing = true;
                 cursor.SetActive(true);
-                cursor.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2.0f , Screen.height / 2.0f, 1.0f));
+                //cursor.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2.0f , Screen.height / 2.0f, 1.0f));
+                cursor.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.0f;
                 cursor.transform.rotation = Camera.main.transform.rotation;
                 Debug.Log("Cursor pos: " + cursor.transform.position);
             }
@@ -514,8 +515,8 @@ public class Spellcasting : MonoBehaviour {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
-            Vector3 horizontal = cursor.transform.right * h * 0.002f;
-            Vector3 vertical = cursor.transform.up * v * 0.002f;
+            Vector3 horizontal = cursor.transform.right * h * 0.02f;
+            Vector3 vertical = cursor.transform.up * v * 0.02f;
 
             cursor.transform.position += horizontal + vertical;
 
