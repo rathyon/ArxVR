@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spellcasting : MonoBehaviour {
+// Bluetooth Controller VR Mode
+// Button0 = C
+// Button1 = A
+// Button2 = ?
 
-    public float timeInterval = 2000.0f;
+public class SpellCasting : MonoBehaviour {
+
+    public float timeInterval = 2000.0f; // doesn't work?!
     public LineRenderer lineRenderer;
     public GameObject cursor;
 
@@ -472,7 +477,6 @@ public class Spellcasting : MonoBehaviour {
             }
         }
  
-
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             mouseDown = true;

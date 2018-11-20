@@ -6,7 +6,7 @@ public class SpellControler : MonoBehaviour {
 
     public Vector3 direction;
     public GameObject impactPS;
-    public GameObject reticleDirection;
+    //public GameObject reticleDirection;
     public float time = 0;
     public bool impact;
     public Vector3 velocity;

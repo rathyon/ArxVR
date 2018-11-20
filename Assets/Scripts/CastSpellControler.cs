@@ -17,11 +17,11 @@ public class CastSpellControler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.JoystickButton1) ||Input.GetKeyDown("a")){
+        if (Input.GetKeyDown(KeyCode.JoystickButton2) ||Input.GetKeyDown("a")){
 
-            Ray dir = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
+            //Ray dir = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
             GameObject clone = Instantiate(spell, transform.position, transform.rotation);
-            clone.GetComponent<SpellControler>().direction = dir.direction.normalized; 
+            clone.GetComponent<SpellControler>().direction = Camera.main.transform.forward; 
 
         }
 
