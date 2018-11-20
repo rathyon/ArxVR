@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class SpellCasting : MonoBehaviour {
 
-    public float timeInterval = 2000.0f; // doesn't work?!
+    public float timeInterval = 0.002f; // works but watch out for the value in the inspector, that's the one that counts!
     public LineRenderer lineRenderer;
     public GameObject cursor;
 
@@ -19,6 +19,7 @@ public class SpellCasting : MonoBehaviour {
     private float timeSinceLastPoint;
 
     private List<Vector2> plist;
+    private int plist_max = 5000; // max number of points in plist
 
     // Rune recognition variables
     private const int requiredPointCount = 20;
@@ -46,8 +47,7 @@ public class SpellCasting : MonoBehaviour {
     enum Rune
     {
         FIRE,
-        WATER,
-        LIFE
+        ANIMATE
     }
 
     struct RunePattern
@@ -64,12 +64,18 @@ public class SpellCasting : MonoBehaviour {
 
     RunePattern[] patternData =
     {
-        new RunePattern(Rune.FIRE, "02"),
-        new RunePattern(Rune.WATER, "0505"),
-        new RunePattern(Rune.LIFE, "17305")
+        new RunePattern(Rune.FIRE, "602"),
+        new RunePattern(Rune.ANIMATE, "0501"),
     };
 
-    private const int MAX_RUNE_COUNT = 3;
+    Rune[][] spells =
+    {
+        new Rune[]{Rune.FIRE},                 // Illuminate : Light up torches, candles, etc...
+        new Rune[]{Rune.FIRE, Rune.ANIMATE},   // Fireball : self explanatory
+        new Rune[]{Rune.ANIMATE}               // Telekinesis: manipulate objects at a distance
+    };
+
+    private const int MAX_RUNE_COUNT = 4;
     private int currentRune = 0;
     private List<Rune> runeQueue;
 
@@ -386,11 +392,8 @@ public class SpellCasting : MonoBehaviour {
             case Rune.FIRE:
                 result = "Fire";
                 break;
-            case Rune.WATER:
-                result = "Water";
-                break;
-            case Rune.LIFE:
-                result = "Life";
+            case Rune.ANIMATE:
+                result = "Animate";
                 break;
             default:
                 result = "Unknown";
@@ -405,6 +408,55 @@ public class SpellCasting : MonoBehaviour {
     {
         runeDetection(patternData[index].rune);
         Debug.Log("Rune recognized: " + runeToString(patternData[index].rune));
+    }
+
+    void castSpell(int index)
+    {
+        // switch case for each spell...
+    }
+
+    void invokeSpell()
+    {
+        int runeSeqLen = runeQueue.Count;
+        List<int> candidates = new List<int>();
+
+        // check for spells of the correct length
+        for(int i = 0; i < spells.Length; i++)
+        {
+            if(spells[i].Length == runeSeqLen)
+            {
+                candidates.Add(i);
+            }
+        }
+
+        // for each rune, check for each candidate 
+        for(int rune = 0; rune < runeSeqLen; rune++)
+        {
+            for(int i = 0; i < candidates.Count; i++)
+            {
+                if(runeQueue[rune] != spells[candidates[i]][rune])
+                {
+                    candidates.RemoveAt(i);
+                }
+            }
+        }
+
+        if (candidates.Count == 0)
+        {
+            // SPELL FIZZLED! NO KNOWN SPELL MATCHES RUNES!
+            Debug.Log("Spell cast fizzled!");
+        }
+        else if(candidates.Count == 1)
+        {
+            // SPELL CAST SUCCESSFUL!
+            Debug.Log("Spell cast successful!");
+        }
+        else
+        {
+            // THIS SHOULD NEVER HAPPEN BUT, MORE THAN 1 SPELL FOUND!
+            Debug.Log("WTF LOL");
+        }
+
     }
 
     /*==============================================================================*/
@@ -465,52 +517,50 @@ public class SpellCasting : MonoBehaviour {
                 //cursor.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2.0f , Screen.height / 2.0f, 1.0f));
                 cursor.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.0f;
                 cursor.transform.rotation = Camera.main.transform.rotation;
-                Debug.Log("Cursor pos: " + cursor.transform.position);
             }
             else
             {
                 drawing = false;
-                //cursor.transform.position = new Vector3(0, 0, cursor.transform.position.z);
-                cursor.transform.position = startPos;
-                Debug.Log("Cursor reset to: " + cursor.transform.position);
                 cursor.SetActive(false);
+
+                if (mouseDown)
+                {
+                    mouseDown = false;
+                    plist.Clear();
+                    lineRenderer.positionCount = 0;
+                    m_dirs.Initialize();
+                    Debug.Log("Spell casting hard cancelled!");
+                    runeQueue.Clear();
+                }
+                else
+                {
+                    // cast spell here
+                    invokeSpell();
+                    runeQueue.Clear();
+                }
             }
         }
  
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.JoystickButton0))
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.JoystickButton0)) && !mouseDown)
         {
             mouseDown = true;
         }
-        else if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.JoystickButton0))
+        else if ((Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.JoystickButton0)) && mouseDown)
         {
             mouseDown = false;
 
-            //Debug.Log("Points registered: " + plist.Count);
-
             analyze();
-
-            //string log = "";
-
-            /** /
-            foreach(Rune rune in runeQueue)
-            {
-                log += runeToString(rune) + " ";
-            }
-            Debug.Log("Current rune queue: " + log);
-            /**/
-
-            /** /
-            log = "";
-            foreach (int dir in m_dirs)
-            {
-                log += dir + " ";
-            }
-            Debug.Log("Dirs: " + log);
-            /**/
 
             plist.Clear();
             lineRenderer.positionCount = 0;
             m_dirs.Initialize();
+
+            string log = "";
+            foreach(Rune rune in runeQueue)
+            {
+                log += runeToString(rune) + " ";
+            }
+            Debug.Log("Rune queue: " + log);
         }
 
         if (drawing)
@@ -529,18 +579,18 @@ public class SpellCasting : MonoBehaviour {
                 if (timeSinceLastPoint >= timeInterval)
                 {
                     // use cursor position in world
-                    //Vector2 mousePos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                    //Vector2 mousePos = new Vector2(cursor.transform.position.x, cursor.transform.position.y);
                     Vector2 mousePos = Camera.main.WorldToScreenPoint(cursor.transform.position);
-                    plist.Add(mousePos);
-                    timeSinceLastPoint = 0.0f;
 
-                    //rendering stuff
-                    //Vector3 mouseWorld = new Vector3(mousePos.x, mousePos.y, 1.0f);
-                    //Vector3 worldPos = Camera.main.ScreenToWorldPoint(mouseWorld);
-                    lineRenderer.positionCount += 1;
-                    //lineRenderer.SetPosition(plist.Count - 1, worldPos);
-                    lineRenderer.SetPosition(plist.Count - 1, cursor.transform.position);
+                    if(plist.Count < plist_max)
+                    {
+                        plist.Add(mousePos);
+                        timeSinceLastPoint = 0.0f;
+
+                        //rendering stuff
+                        lineRenderer.positionCount += 1;
+                        lineRenderer.SetPosition(plist.Count - 1, cursor.transform.position);
+                    }
+                    
                 }
                 else
                 {
