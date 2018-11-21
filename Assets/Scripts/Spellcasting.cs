@@ -9,13 +9,13 @@ using UnityEngine;
 
 public class SpellCasting : MonoBehaviour {
 
-    public float timeInterval = 0.002f; // works but watch out for the value in the inspector, that's the one that counts!
+    public float timeInterval = 0.05f; // works but watch out for the value in the inspector, that's the one that counts!
     public LineRenderer lineRenderer;
     public GameObject cursor;
+    public GameObject[] torches;
 
     private bool mouseDown = false;
     private bool drawing = false;
-    private Vector3 startPos;
     private float timeSinceLastPoint;
 
     private List<Vector2> plist;
@@ -30,9 +30,6 @@ public class SpellCasting : MonoBehaviour {
     private int[] m_dirs;
     private List<Vector2> m_points;
     private List<int> m_indices;
-
-    private bool illuminateSpell = false;
-    private bool insideTrigger = false;
     
     // counter clockwise, i.e right hand rule
     private enum RuneDirection
@@ -50,7 +47,8 @@ public class SpellCasting : MonoBehaviour {
     enum Rune
     {
         FIRE,
-        ANIMATE
+        ANIMATE,
+        WIND
     }
 
     struct RunePattern
@@ -69,6 +67,7 @@ public class SpellCasting : MonoBehaviour {
     {
         new RunePattern(Rune.FIRE, "602"),
         new RunePattern(Rune.ANIMATE, "0501"),
+        new RunePattern(Rune.WIND, "171"),
     };
 
     Rune[][] spells =
@@ -91,9 +90,6 @@ public class SpellCasting : MonoBehaviour {
         runeQueue = new List<Rune>();
 
         cursor.SetActive(false);
-        startPos = cursor.transform.position;
-
-        Debug.Log("Cursor start: " + cursor.transform.position);
 
         timeSinceLastPoint = timeInterval; // first click counts as the first point
     }
@@ -398,8 +394,11 @@ public class SpellCasting : MonoBehaviour {
             case Rune.ANIMATE:
                 result = "Animate";
                 break;
+            case Rune.WIND:
+                result = "Wind";
+                break;
             default:
-                result = "Unknown";
+                result = "You forgot to add it!";
                 break;
            
         }
@@ -412,40 +411,39 @@ public class SpellCasting : MonoBehaviour {
         runeDetection(patternData[index].rune);
         Debug.Log("Rune recognized: " + runeToString(patternData[index].rune));
     }
-    private void OnTriggerStay(Collider other)
-    {
 
-            Debug.Log("cenas");
-        if (other.CompareTag("TorchLighting"))
+    void illuminate()
+    {
+        foreach(GameObject torch in torches)
         {
-            Debug.Log("YA ESTOU FDS");
-            insideTrigger = true;
-            if (illuminateSpell)
+            if(Vector3.Distance(torch.transform.position, transform.position) <= 8.0f)
             {
-                other.gameObject.transform.Find("Torch Lighting").gameObject.SetActive(true);
-                illuminateSpell = false;
+                torch.SetActive(true);
             }
         }
     }
-    private void OnTriggerExit(Collider other)
+
+    void fireball()
     {
-        if (other.CompareTag("TorchLighting"))
-        {
-            insideTrigger = false;
-        }
+
     }
+
     void castSpell(int index)
     {
-        Debug.Log("ENTREI CARALHO");
         // switch case for each spell...
         switch (index)
         {
-            case 0: // illuminate
-                Debug.Log("illuminate");
-                if(insideTrigger){
-                    illuminateSpell = true;}
+            case 0: // Illuminate
+                Debug.Log("Illuminate cast!");
+                illuminate();
                 break;
-
+            case 1: // Fireball
+                Debug.Log("Fireball cast!");
+                fireball();
+                break;
+            default:
+                Debug.Log("Unknown spell cast?");
+                break;
         }
     }
 
@@ -463,14 +461,18 @@ public class SpellCasting : MonoBehaviour {
             }
         }
 
+        //Debug.Log("Candidates length: " + candidates.Count.ToString());
+
         // for each rune, check for each candidate 
         for(int rune = 0; rune < runeSeqLen; rune++)
         {
             for(int i = 0; i < candidates.Count; i++)
             {
+                //Debug.Log("Entered for loop...");
+                //Debug.Log("If statement value: " + (runeQueue[rune] != spells[candidates[i]][rune]));
                 if(runeQueue[rune] != spells[candidates[i]][rune])
                 {
-                    candidates.RemoveAt(i);
+                    candidates.Remove(candidates[i]);
                 }
             }
         }
@@ -604,8 +606,8 @@ public class SpellCasting : MonoBehaviour {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
-            Vector3 horizontal = cursor.transform.right * h * 0.02f;
-            Vector3 vertical = cursor.transform.up * v * 0.02f;
+            Vector3 horizontal = cursor.transform.right * h * 0.015f;
+            Vector3 vertical = cursor.transform.up * v * 0.015f;
 
             cursor.transform.position += horizontal + vertical;
 

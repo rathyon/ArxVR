@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731192, g: 0.38073993, b: 0.3587269, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -15091,7 +15091,7 @@ GameObject:
   - component: {fileID: 261479827}
   - component: {fileID: 261479826}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15123,7 +15123,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5ecc9ba4494d55f4f8755b4575e8d25e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15150,7 +15150,7 @@ MeshCollider:
   m_GameObject: {fileID: 261479824}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
@@ -15663,6 +15663,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &361795676 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1146535788451926, guid: 79324aa02eb6e3447a541d5ff382993e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1213652598}
 --- !u!1 &384142231
 GameObject:
   m_ObjectHideFlags: 0
@@ -58979,7 +58984,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &787829777
 Transform:
   m_ObjectHideFlags: 0
@@ -66384,7 +66389,6 @@ GameObject:
   - component: {fileID: 871081718}
   - component: {fileID: 871081723}
   - component: {fileID: 871081724}
-  - component: {fileID: 871081725}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -66560,19 +66564,13 @@ MonoBehaviour:
   timeInterval: 0.05
   lineRenderer: {fileID: 871081723}
   cursor: {fileID: 261479824}
---- !u!136 &871081725
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 871081717}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 1.5
-  m_Height: 8
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  torches:
+  - {fileID: 361795676}
+  - {fileID: 1148360510}
+  - {fileID: 575614004}
+  - {fileID: 94303626}
+  - {fileID: 297549049}
+  - {fileID: 787829776}
 --- !u!1 &893209147
 GameObject:
   m_ObjectHideFlags: 0
@@ -112884,15 +112882,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1825240361}
-  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 1.41, y: 0.75, z: -2.34}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: -1.14, y: 0.54, z: -2.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 871081722}
   - {fileID: 261479825}
   m_Father: {fileID: 0}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!54 &1825240363
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour {
 
         if (can_move)
         {
-            float h = Input.GetAxis("Horizontal") * 0.1f;
-            float v = Input.GetAxis("Vertical") * 0.1f;
+            float h = Input.GetAxis("Horizontal") * 0.05f;
+            float v = Input.GetAxis("Vertical") * 0.05f;
 
             Vector3 forward = Camera.main.transform.forward;
             forward.y = 0;
