@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731192, g: 0.38073993, b: 0.3587269, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -7338,7 +7338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &94303627
 Transform:
   m_ObjectHideFlags: 0
@@ -15388,7 +15388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &297549050
 Transform:
   m_ObjectHideFlags: 0
@@ -19241,9 +19241,10 @@ GameObject:
   - component: {fileID: 410897867}
   - component: {fileID: 410897869}
   - component: {fileID: 410897868}
+  - component: {fileID: 410897870}
   m_Layer: 0
   m_Name: Torch (5)
-  m_TagString: Untagged
+  m_TagString: TorchLighting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19303,6 +19304,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 410897866}
   m_Mesh: {fileID: 4300174, guid: fd75e63c14c4540438372a6844af68b6, type: 3}
+--- !u!136 &410897870
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 410897866}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2.5
+  m_Height: 8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &411058730
 GameObject:
   m_ObjectHideFlags: 0
@@ -37579,7 +37593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &575614005
 Transform:
   m_ObjectHideFlags: 0
@@ -58701,6 +58715,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2088699, y: 5.872577, z: 1.2088699}
   m_Center: {x: 0, y: 2.9362886, z: 0}
+--- !u!1 &732236560 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1474493235231532, guid: 79324aa02eb6e3447a541d5ff382993e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1213652598}
+--- !u!136 &732236561
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 732236560}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2.5
+  m_Height: 8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &764608296
 GameObject:
   m_ObjectHideFlags: 0
@@ -59174,9 +59206,10 @@ GameObject:
   - component: {fileID: 807482619}
   - component: {fileID: 807482621}
   - component: {fileID: 807482620}
+  - component: {fileID: 807482622}
   m_Layer: 0
   m_Name: Torch (1)
-  m_TagString: Untagged
+  m_TagString: TorchLighting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59236,6 +59269,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 807482618}
   m_Mesh: {fileID: 4300174, guid: fd75e63c14c4540438372a6844af68b6, type: 3}
+--- !u!136 &807482622
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 807482618}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2.5
+  m_Height: 8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &830433534
 GameObject:
   m_ObjectHideFlags: 0
@@ -66338,6 +66384,7 @@ GameObject:
   - component: {fileID: 871081718}
   - component: {fileID: 871081723}
   - component: {fileID: 871081724}
+  - component: {fileID: 871081725}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -66513,6 +66560,19 @@ MonoBehaviour:
   timeInterval: 0.05
   lineRenderer: {fileID: 871081723}
   cursor: {fileID: 261479824}
+--- !u!136 &871081725
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 871081717}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.5
+  m_Height: 8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &893209147
 GameObject:
   m_ObjectHideFlags: 0
@@ -71783,7 +71843,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1148360511
 Transform:
   m_ObjectHideFlags: 0
@@ -75705,6 +75765,14 @@ Prefab:
     - target: {fileID: 4966989910799336, guid: 79324aa02eb6e3447a541d5ff382993e, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146535788451926, guid: 79324aa02eb6e3447a541d5ff382993e, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474493235231532, guid: 79324aa02eb6e3447a541d5ff382993e, type: 2}
+      propertyPath: m_TagString
+      value: TorchLighting
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 79324aa02eb6e3447a541d5ff382993e, type: 2}
@@ -87339,9 +87407,10 @@ GameObject:
   - component: {fileID: 1466629948}
   - component: {fileID: 1466629950}
   - component: {fileID: 1466629949}
+  - component: {fileID: 1466629951}
   m_Layer: 0
   m_Name: Torch (4)
-  m_TagString: Untagged
+  m_TagString: TorchLighting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87401,6 +87470,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1466629947}
   m_Mesh: {fileID: 4300174, guid: fd75e63c14c4540438372a6844af68b6, type: 3}
+--- !u!136 &1466629951
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1466629947}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2.5
+  m_Height: 8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1467092198
 GameObject:
   m_ObjectHideFlags: 0
@@ -123950,9 +124032,10 @@ GameObject:
   - component: {fileID: 1969859948}
   - component: {fileID: 1969859950}
   - component: {fileID: 1969859949}
+  - component: {fileID: 1969859951}
   m_Layer: 0
   m_Name: Torch (2)
-  m_TagString: Untagged
+  m_TagString: TorchLighting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124012,6 +124095,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1969859947}
   m_Mesh: {fileID: 4300174, guid: fd75e63c14c4540438372a6844af68b6, type: 3}
+--- !u!136 &1969859951
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1969859947}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2.5
+  m_Height: 8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1984484742
 GameObject:
   m_ObjectHideFlags: 0
@@ -131106,9 +131202,10 @@ GameObject:
   - component: {fileID: 2127955477}
   - component: {fileID: 2127955479}
   - component: {fileID: 2127955478}
+  - component: {fileID: 2127955480}
   m_Layer: 0
   m_Name: Torch (3)
-  m_TagString: Untagged
+  m_TagString: TorchLighting
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131168,6 +131265,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2127955476}
   m_Mesh: {fileID: 4300174, guid: fd75e63c14c4540438372a6844af68b6, type: 3}
+--- !u!136 &2127955480
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2127955476}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2.5
+  m_Height: 8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2131776612
 GameObject:
   m_ObjectHideFlags: 0

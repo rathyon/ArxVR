@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class SpellCasting : MonoBehaviour {
 
-    public float timeInterval = 0.05f; // works but watch out for the value in the inspector, that's the one that counts!
+    public float timeInterval = 0.002f; // works but watch out for the value in the inspector, that's the one that counts!
     public LineRenderer lineRenderer;
     public GameObject cursor;
 
@@ -30,6 +30,9 @@ public class SpellCasting : MonoBehaviour {
     private int[] m_dirs;
     private List<Vector2> m_points;
     private List<int> m_indices;
+
+    private bool illuminateSpell = false;
+    private bool insideTrigger = false;
     
     // counter clockwise, i.e right hand rule
     private enum RuneDirection
@@ -409,10 +412,41 @@ public class SpellCasting : MonoBehaviour {
         runeDetection(patternData[index].rune);
         Debug.Log("Rune recognized: " + runeToString(patternData[index].rune));
     }
+    private void OnTriggerStay(Collider other)
+    {
 
+            Debug.Log("cenas");
+        if (other.CompareTag("TorchLighting"))
+        {
+            Debug.Log("YA ESTOU FDS");
+            insideTrigger = true;
+            if (illuminateSpell)
+            {
+                other.gameObject.transform.Find("Torch Lighting").gameObject.SetActive(true);
+                illuminateSpell = false;
+            }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("TorchLighting"))
+        {
+            insideTrigger = false;
+        }
+    }
     void castSpell(int index)
     {
+        Debug.Log("ENTREI CARALHO");
         // switch case for each spell...
+        switch (index)
+        {
+            case 0: // illuminate
+                Debug.Log("illuminate");
+                if(insideTrigger){
+                    illuminateSpell = true;}
+                break;
+
+        }
     }
 
     void invokeSpell()
@@ -449,6 +483,7 @@ public class SpellCasting : MonoBehaviour {
         else if(candidates.Count == 1)
         {
             // SPELL CAST SUCCESSFUL!
+            castSpell(candidates[0]);
             Debug.Log("Spell cast successful!");
         }
         else
