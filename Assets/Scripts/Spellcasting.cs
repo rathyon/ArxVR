@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class SpellCasting : MonoBehaviour {
 
-    public float timeInterval = 0.002f; // works but watch out for the value in the inspector, that's the one that counts!
+    public float timeInterval = 0.05f; // works but watch out for the value in the inspector, that's the one that counts!
     public LineRenderer lineRenderer;
     public GameObject cursor;
 
