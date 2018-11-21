@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class SpellCasting : MonoBehaviour {
 
+    public GameObject fireballPrefab;
+
     public float timeInterval = 0.05f; // works but watch out for the value in the inspector, that's the one that counts!
     public LineRenderer lineRenderer;
     public GameObject cursor;
@@ -425,7 +427,8 @@ public class SpellCasting : MonoBehaviour {
 
     void fireball()
     {
-
+        GameObject clone = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+        clone.GetComponent<SpellControler>().direction = Camera.main.transform.forward;
     }
 
     void castSpell(int index)

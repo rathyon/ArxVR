@@ -9,7 +9,6 @@ public class SpellControler : MonoBehaviour {
     //public GameObject reticleDirection;
     public float time = 0;
     public bool impact;
-    public Vector3 velocity;
 
 	// Use this for initialization
 	void Start () {
@@ -19,20 +18,20 @@ public class SpellControler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         time += Time.deltaTime;
-        if (impact){
-            impactPS.SetActive(true);
 
+        Debug.Log(transform.position);
+        if(time >= 15.0){
             Destroy(gameObject);
         }
-        if(time >= 5.0){
-            Destroy(gameObject);
-        }
-        transform.position += direction * 0.5f;
+        transform.position += direction * 0.1f;
 	}
 
 	private void OnCollisionEnter(Collision collision)
 	{
-        impact = true;
+        if(!collision.gameObject.CompareTag("Player")||!collision.gameObject.CompareTag("MainCamera")){
+            impactPS.SetActive(true);
+            Destroy(gameObject);
+        }
 	}
 
 }
