@@ -7,14 +7,24 @@ using UnityEngine;
 // Button1 = A
 // Button2 = ?
 
-public class SpellCasting : MonoBehaviour {
+public class SpellCasting : MonoBehaviour
+{
 
     public GameObject fireballPrefab;
 
     public float timeInterval = 0.05f; // works but watch out for the value in the inspector, that's the one that counts!
     public LineRenderer lineRenderer;
     public GameObject cursor;
+    public GameObject queueDrawing;
+    public GameObject queueDrawing1;
+    public GameObject queueDrawing2;
+    public GameObject queueDrawing3;
     public GameObject[] torches;
+
+    // Rune drawings gameobjects for queue in top right corner
+    public GameObject drawingFire;
+    public GameObject drawingAnimate;
+    public GameObject drawingWind;
 
     private bool mouseDown = false;
     private bool drawing = false;
@@ -32,7 +42,7 @@ public class SpellCasting : MonoBehaviour {
     private int[] m_dirs;
     private List<Vector2> m_points;
     private List<int> m_indices;
-    
+
     // counter clockwise, i.e right hand rule
     private enum RuneDirection
     {
@@ -51,26 +61,28 @@ public class SpellCasting : MonoBehaviour {
         FIRE,
         ANIMATE,
         WIND
-    }
+    };
 
     struct RunePattern
     {
         public Rune rune;
         public string dirs;
 
-        public RunePattern(Rune r, string p)
+        public GameObject runeDrawing;
+
+        public RunePattern(Rune r, string p, GameObject d)
         {
             rune = r;
             dirs = p;
+            runeDrawing = d;
         }
-    }
-
-    RunePattern[] patternData =
-    {
-        new RunePattern(Rune.FIRE, "602"),
-        new RunePattern(Rune.ANIMATE, "0501"),
-        new RunePattern(Rune.WIND, "171"),
     };
+
+
+
+    RunePattern[] patternData;
+
+   
 
     Rune[][] spells =
     {
@@ -79,11 +91,20 @@ public class SpellCasting : MonoBehaviour {
         new Rune[]{Rune.ANIMATE}               // Telekinesis: manipulate objects at a distance
     };
 
-    private const int MAX_RUNE_COUNT = 4;
+    private const int MAX_RUNE_COUNT = 2;
     private int currentRune = 0;
     private List<Rune> runeQueue;
 
 	void Start () {
+        RunePattern rune1 = new RunePattern(Rune.FIRE, "602", drawingFire);
+        RunePattern rune2 = new RunePattern(Rune.ANIMATE, "0501", drawingAnimate);
+
+        patternData = new RunePattern[MAX_RUNE_COUNT];
+        patternData[0] = rune1;
+        patternData[1] = rune2;
+        Debug.Log(patternData);
+        //patternData[2] = new RunePattern(Rune.WIND, "171", drawingWind);
+
         patternCount = patternData.Length;
         plist = new List<Vector2>();
         m_dirs = new int[directionCount];
@@ -92,6 +113,7 @@ public class SpellCasting : MonoBehaviour {
         runeQueue = new List<Rune>();
 
         cursor.SetActive(false);
+        queueDrawing.SetActive(false);
 
         timeSinceLastPoint = timeInterval; // first click counts as the first point
     }
@@ -384,6 +406,26 @@ public class SpellCasting : MonoBehaviour {
             runeQueue.Add(rune);
         }
     }
+    void runeQueueDrawing(GameObject runedraw)
+    {
+
+        queueDrawing3.GetComponent<MeshFilter>().mesh = queueDrawing2.GetComponent<MeshFilter>().mesh;
+        queueDrawing3.GetComponent<MeshRenderer>().material = queueDrawing2.GetComponent<MeshRenderer>().material;
+        queueDrawing3.GetComponent<Transform>().rotation = queueDrawing2.GetComponent<Transform>().rotation;
+        queueDrawing3.GetComponent<Transform>().localScale = queueDrawing2.GetComponent<Transform>().localScale;
+
+
+        queueDrawing2.GetComponent<MeshFilter>().mesh = queueDrawing1.GetComponent<MeshFilter>().mesh;
+        queueDrawing2.GetComponent<MeshRenderer>().material = queueDrawing1.GetComponent<MeshRenderer>().material;
+        queueDrawing2.GetComponent<Transform>().rotation = queueDrawing1.GetComponent<Transform>().rotation;
+        queueDrawing2.GetComponent<Transform>().localScale = queueDrawing1.GetComponent<Transform>().localScale;
+
+        queueDrawing1.GetComponent<MeshFilter>().mesh = runedraw.GetComponentInChildren<MeshFilter>().mesh;
+        queueDrawing1.GetComponent<MeshRenderer>().material = runedraw.GetComponentInChildren<MeshRenderer>().material;
+        queueDrawing1.GetComponent<Transform>().rotation = runedraw.GetComponent<Transform>().rotation;
+        queueDrawing1.GetComponent<Transform>().localScale = runedraw.GetComponent<Transform>().localScale;
+       
+    }
 
     string runeToString(Rune rune)
     {
@@ -411,6 +453,7 @@ public class SpellCasting : MonoBehaviour {
     void runeHandler(int index)
     {
         runeDetection(patternData[index].rune);
+        runeQueueDrawing(patternData[index].runeDrawing);
         Debug.Log("Rune recognized: " + runeToString(patternData[index].rune));
     }
 
@@ -557,11 +600,17 @@ public class SpellCasting : MonoBehaviour {
                 //cursor.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2.0f , Screen.height / 2.0f, 1.0f));
                 cursor.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 1.0f;
                 cursor.transform.rotation = Camera.main.transform.rotation;
+                queueDrawing.SetActive(true);
+               
             }
             else
             {
                 drawing = false;
                 cursor.SetActive(false);
+                queueDrawing.SetActive(false);
+                queueDrawing3.GetComponent<MeshFilter>().mesh.Clear();
+                queueDrawing2.GetComponent<MeshFilter>().mesh.Clear();
+                queueDrawing1.GetComponent<MeshFilter>().mesh.Clear();
 
                 if (mouseDown)
                 {
@@ -612,7 +661,9 @@ public class SpellCasting : MonoBehaviour {
             Vector3 horizontal = cursor.transform.right * h * 0.015f;
             Vector3 vertical = cursor.transform.up * v * 0.015f;
 
-            cursor.transform.position += horizontal + vertical;
+           cursor.transform.position += horizontal + vertical;
+           
+
 
             if (mouseDown)
             {
