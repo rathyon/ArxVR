@@ -10,7 +10,6 @@ using UnityEngine;
 public class SpellCasting : MonoBehaviour
 {
 
-    public GameObject fireballPrefab;
 
     public float timeInterval = 0.05f; // works but watch out for the value in the inspector, that's the one that counts!
     public LineRenderer lineRenderer;
@@ -21,10 +20,17 @@ public class SpellCasting : MonoBehaviour
     public GameObject queueDrawing3;
     public GameObject[] torches;
 
+    //Player Spells
+    public GameObject fireballPrefab;
+    public GameObject playerLight;
+
     // Rune drawings gameobjects for queue in top right corner
     public GameObject drawingFire;
     public GameObject drawingAnimate;
     public GameObject drawingWind;
+
+
+    private bool playerLightFlag = false;
 
     private bool mouseDown = false;
     private bool drawing = false;
@@ -60,7 +66,11 @@ public class SpellCasting : MonoBehaviour
     {
         FIRE,
         ANIMATE,
-        WIND
+        WIND,
+        WATER,
+        //EARTH,
+        //ICE,
+        LIGHT
     };
 
     struct RunePattern
@@ -86,22 +96,36 @@ public class SpellCasting : MonoBehaviour
 
     Rune[][] spells =
     {
-        new Rune[]{Rune.FIRE},                 // Illuminate : Light up torches, candles, etc...
-        new Rune[]{Rune.FIRE, Rune.ANIMATE},   // Fireball : self explanatory
-        new Rune[]{Rune.ANIMATE}               // Telekinesis: manipulate objects at a distance
+        new Rune[]{Rune.FIRE},                  // Illuminate : Light up torches, candles, etc...
+        new Rune[]{Rune.FIRE, Rune.ANIMATE},    // Fireball : self explanatory
+        new Rune[]{Rune.ANIMATE},               // Telekinesis: manipulate objects at a distance
+        new Rune[]{Rune.WATER},                 // Water: creates something to do with water
+        //new Rune[]{Rune.WATER, Rune.ICE},       // Ice: Creates path of ice on someplace
+        //new Rune[]{Rune.EARTH, Rune.ANIMATE},   // Earth: 
+        new Rune[]{Rune.LIGHT, Rune.ANIMATE, Rune.FIRE},   // 
+        //new Rune[]{Rune.EARTH, Rune.ANIMATE}
+
+
     };
 
-    private const int MAX_RUNE_COUNT = 2;
+    private const int MAX_RUNE_COUNT = 5;
     private int currentRune = 0;
     private List<Rune> runeQueue;
 
 	void Start () {
         RunePattern rune1 = new RunePattern(Rune.FIRE, "602", drawingFire);
         RunePattern rune2 = new RunePattern(Rune.ANIMATE, "0501", drawingAnimate);
+        RunePattern rune3 = new RunePattern(Rune.WIND, "171", drawingAnimate);
+        RunePattern rune4 = new RunePattern(Rune.WATER, "7171", drawingAnimate);
+        RunePattern rune5 = new RunePattern(Rune.LIGHT, "605", drawingAnimate);
 
-        patternData = new RunePattern[MAX_RUNE_COUNT];
+
+        patternData = new RunePattern[5];
         patternData[0] = rune1;
         patternData[1] = rune2;
+        patternData[2] = rune3;
+        patternData[3] = rune4;
+        patternData[4] = rune5;
         Debug.Log(patternData);
         //patternData[2] = new RunePattern(Rune.WIND, "171", drawingWind);
 
@@ -441,6 +465,18 @@ public class SpellCasting : MonoBehaviour
             case Rune.WIND:
                 result = "Wind";
                 break;
+            case Rune.WATER:
+                result = "Water";
+                break;
+            case Rune.LIGHT:
+                result = "Light";
+                break;
+           /* case Rune.EARTH:
+                result = "Earth";
+                break;
+            case Rune.ICE:
+                result = "Ice";
+                break;*/
             default:
                 result = "You forgot to add it!";
                 break;
@@ -459,13 +495,19 @@ public class SpellCasting : MonoBehaviour
 
     void illuminate()
     {
-        foreach(GameObject torch in torches)
+        foreach (GameObject torch in torches)
         {
-            if(Vector3.Distance(torch.transform.position, transform.position) <= 8.0f)
+            if (Vector3.Distance(torch.transform.position, transform.position) <= 8.0f)
             {
                 torch.SetActive(true);
             }
         }
+    }
+    void createLight()
+    {
+        playerLightFlag = true;
+        playerLight.SetActive(true);
+       
     }
 
     void fireball()
@@ -486,6 +528,10 @@ public class SpellCasting : MonoBehaviour
             case 1: // Fireball
                 Debug.Log("Fireball cast!");
                 fireball();
+                break;
+            case 4:
+                Debug.Log("Light cast!");
+                createLight();
                 break;
             default:
                 Debug.Log("Unknown spell cast?");
@@ -590,7 +636,14 @@ public class SpellCasting : MonoBehaviour
        ============================================================================== */
 
     void Update () {
-
+        if (playerLightFlag == true){
+            
+            playerLight.GetComponent<Light>().intensity -= Time.deltaTime;
+            if (playerLight.GetComponent<Light>().intensity <= 0){
+                playerLight.SetActive(false);
+                playerLightFlag = false;
+            }
+        }
         if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1))
         {
             if (!drawing)
