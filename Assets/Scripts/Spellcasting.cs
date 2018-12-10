@@ -714,12 +714,13 @@ public class SpellCasting : MonoBehaviour
             Vector3 horizontal = cursor.transform.right * h * 0.015f;
             Vector3 vertical = cursor.transform.up * v * 0.015f;
 
-           cursor.transform.position += horizontal + vertical;
-           
-
+            cursor.transform.position += horizontal + vertical;
 
             if (mouseDown)
             {
+          
+
+
                 if (timeSinceLastPoint >= timeInterval)
                 {
                     // use cursor position in world

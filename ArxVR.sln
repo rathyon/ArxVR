@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio for Mac
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArxVR", "ArxVR.csproj", "{3746D8BF-B241-4038-5A4A-3D3816D18243}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArxVR.Plugins", "ArxVR.Plugins.csproj", "{30CD78E9-B4BE-4046-B0BB-4850B1DE18CF}"
