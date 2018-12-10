@@ -23,6 +23,7 @@ public class SpellCasting : MonoBehaviour
     //Player Spells
     public GameObject fireballPrefab;
     public GameObject playerLight;
+    public GameObject telekinesisObject;
 
     // Rune drawings gameobjects for queue in top right corner
     public GameObject drawingFire;
@@ -31,6 +32,7 @@ public class SpellCasting : MonoBehaviour
 
 
     private bool playerLightFlag = false;
+    private bool telekinesisObjectFlag = false;
 
     private bool mouseDown = false;
     private bool drawing = false;
@@ -118,7 +120,6 @@ public class SpellCasting : MonoBehaviour
         RunePattern rune3 = new RunePattern(Rune.WIND, "171", drawingAnimate);
         RunePattern rune4 = new RunePattern(Rune.WATER, "7171", drawingAnimate);
         RunePattern rune5 = new RunePattern(Rune.LIGHT, "605", drawingAnimate);
-
 
         patternData = new RunePattern[5];
         patternData[0] = rune1;
@@ -509,6 +510,10 @@ public class SpellCasting : MonoBehaviour
         playerLight.SetActive(true);
        
     }
+    void Telekinesis() {
+        telekinesisObject.GetComponent<Rigidbody>().isKinematic = !telekinesisObject.GetComponent<Rigidbody>().isKinematic;
+        telekinesisObjectFlag = !telekinesisObjectFlag;
+    }
 
     void fireball()
     {
@@ -528,6 +533,10 @@ public class SpellCasting : MonoBehaviour
             case 1: // Fireball
                 Debug.Log("Fireball cast!");
                 fireball();
+                break;
+            case 2:
+                Debug.Log("Telekenisis cast!");
+                Telekinesis();
                 break;
             case 4:
                 Debug.Log("Light cast!");
@@ -636,6 +645,13 @@ public class SpellCasting : MonoBehaviour
        ============================================================================== */
 
     void Update () {
+
+        if (telekinesisObjectFlag == true)
+        {
+            
+            telekinesisObject.transform.position = transform.position + Camera.main.transform.forward * 4.0f;
+        }
+        
         if (playerLightFlag == true){
             
             playerLight.GetComponent<Light>().intensity -= Time.deltaTime;
