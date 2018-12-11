@@ -7,10 +7,8 @@ using UnityEngine;
 // Button1 = A
 // Button2 = ?
 
-public class SpellCasting : MonoBehaviour
+public class Spellcasting : MonoBehaviour
 {
-
-
     public float timeInterval = 0.05f; // works but watch out for the value in the inspector, that's the one that counts!
     public LineRenderer lineRenderer;
     public GameObject cursor;
@@ -18,7 +16,6 @@ public class SpellCasting : MonoBehaviour
     public GameObject queueDrawing1;
     public GameObject queueDrawing2;
     public GameObject queueDrawing3;
-    public GameObject[] torches;
 
     //Player Spells
     public GameObject fireballPrefab;
@@ -496,14 +493,9 @@ public class SpellCasting : MonoBehaviour
 
     void illuminate()
     {
-        foreach (GameObject torch in torches)
-        {
-            if (Vector3.Distance(torch.transform.position, transform.position) <= 8.0f)
-            {
-                torch.SetActive(true);
-            }
-        }
+
     }
+
     void createLight()
     {
         playerLightFlag = true;
