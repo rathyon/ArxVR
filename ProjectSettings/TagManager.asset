@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Fire
   - TorchLighting
+  - Barrel
+  - Fireball
+  - DoorPuzzle1
   layers:
   - Default
   - TransparentFX

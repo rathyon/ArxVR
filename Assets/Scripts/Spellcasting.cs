@@ -20,7 +20,7 @@ public class Spellcasting : MonoBehaviour
     //Player Spells
     public GameObject fireballPrefab;
     public GameObject playerLight;
-    public GameObject telekinesisObject;
+    public GameObject objectGazed;
 
     // Rune drawings gameobjects for queue in top right corner
     public GameObject drawingFire;
@@ -503,8 +503,29 @@ public class Spellcasting : MonoBehaviour
        
     }
     void Telekinesis() {
-        telekinesisObject.GetComponent<Rigidbody>().isKinematic = !telekinesisObject.GetComponent<Rigidbody>().isKinematic;
-        telekinesisObjectFlag = !telekinesisObjectFlag;
+        if (objectGazed != null) {
+            if (objectGazed.CompareTag("Barrel")){
+                objectGazed.GetComponent<Rigidbody>().isKinematic = !objectGazed.GetComponent<Rigidbody>().isKinematic;
+                telekinesisObjectFlag = !telekinesisObjectFlag;
+            }
+            if (objectGazed.CompareTag("DoorPuzzle1")) {
+                Debug.Log("ENTREI IHHIHI");
+                objectGazed.transform.localPosition = new Vector3(11.542f, -2.746f, 1.577f);
+                objectGazed.transform.localEulerAngles = new Vector3(0, -180,0);
+            }
+        }
+
+        
+    }
+
+    public void AssignGazedObject(GameObject receivedObject) {
+        objectGazed = receivedObject;
+    }
+    public void RemoveGazedObject() {
+        if (!telekinesisObjectFlag)
+        {
+            objectGazed = null;
+        }
     }
 
     void fireball()
@@ -640,8 +661,8 @@ public class Spellcasting : MonoBehaviour
 
         if (telekinesisObjectFlag == true)
         {
-            
-            telekinesisObject.transform.position = transform.position + Camera.main.transform.forward * 4.0f;
+
+            objectGazed.transform.position = transform.position + Camera.main.transform.forward * 4.0f;
         }
         
         if (playerLightFlag == true){
