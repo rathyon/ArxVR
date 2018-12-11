@@ -104,8 +104,8 @@ public class Spellcasting : MonoBehaviour
 	void Start () {
         RunePattern rune1 = new RunePattern(Rune.FIRE, "602", drawingFire);
         RunePattern rune2 = new RunePattern(Rune.ANIMATE, "0501", drawingAnimate);
-        RunePattern rune3 = new RunePattern(Rune.WATER, "45670", drawingAnimate);
-        RunePattern rune4 = new RunePattern(Rune.LIGHT, "605", drawingAnimate);
+        RunePattern rune3 = new RunePattern(Rune.WATER, "45670", drawingWater);
+        RunePattern rune4 = new RunePattern(Rune.LIGHT, "605", drawingLight);
 
         patternData = new RunePattern[4];
         patternData[0] = rune1;
