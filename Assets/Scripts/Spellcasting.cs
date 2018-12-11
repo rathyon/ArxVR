@@ -25,7 +25,7 @@ public class Spellcasting : MonoBehaviour
     // Rune drawings gameobjects for queue in top right corner
     public GameObject drawingFire;
     public GameObject drawingAnimate;
-    public GameObject drawingWind;
+    public GameObject drawingLight;
     public GameObject drawingWater;
 
 
@@ -510,7 +510,7 @@ public class Spellcasting : MonoBehaviour
             }
             if (objectGazed.CompareTag("DoorPuzzle1")) {
                 Debug.Log("ENTREI IHHIHI");
-                objectGazed.transform.localPosition = new Vector3(11.542f, -2.746f, 1.577f);
+                objectGazed.transform.localPosition = new Vector3(-22.39f, -3.75f, 0.72f);
                 objectGazed.transform.localEulerAngles = new Vector3(0, -180,0);
             }
         }
@@ -589,10 +589,6 @@ public class Spellcasting : MonoBehaviour
         {
             for(int i = 0; i < auxCan.Count; i++)
             {
-                Debug.Log("Entered for loop...");
-                Debug.Log("First value: " + runeQueue[rune]);
-                Debug.Log("Second value: " + spells[auxCan[i]][rune]);
-                Debug.Log("If statement value: " + (runeQueue[rune] != spells[auxCan[i]][rune]));
                 if(runeQueue[rune] != spells[auxCan[i]][rune])
                 {
                     candidates.Remove(auxCan[i]);
