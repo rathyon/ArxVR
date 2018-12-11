@@ -498,7 +498,8 @@ public class Spellcasting : MonoBehaviour
     {
         playerLightFlag = true;
         playerLight.SetActive(true);
-       
+        playerLight.GetComponent<Light>().intensity = 10.0f;
+
     }
 
     void Telekinesis() {
@@ -676,9 +677,10 @@ public class Spellcasting : MonoBehaviour
         if (playerLightFlag == true){
             
             playerLight.GetComponent<Light>().intensity -= Time.deltaTime;
-            if (playerLight.GetComponent<Light>().intensity <= 0){
+            if (playerLight.GetComponent<Light>().intensity <= 2.0f){
                 playerLight.SetActive(false);
                 playerLightFlag = false;
+                playerLight.GetComponent<Light>().intensity = 10.0f;
             }
         }
         if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1))
