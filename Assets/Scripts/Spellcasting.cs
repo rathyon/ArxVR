@@ -26,6 +26,7 @@ public class Spellcasting : MonoBehaviour
     public GameObject drawingFire;
     public GameObject drawingAnimate;
     public GameObject drawingWind;
+    public GameObject drawingWater;
 
 
     private bool playerLightFlag = false;
@@ -65,11 +66,8 @@ public class Spellcasting : MonoBehaviour
     {
         FIRE,
         ANIMATE,
-        WIND,
         WATER,
-        //EARTH,
-        //ICE,
-        LIGHT
+        LIGHT,
     };
 
     struct RunePattern
@@ -87,11 +85,8 @@ public class Spellcasting : MonoBehaviour
         }
     };
 
-
-
     RunePattern[] patternData;
 
-   
 
     Rune[][] spells =
     {
@@ -99,31 +94,24 @@ public class Spellcasting : MonoBehaviour
         new Rune[]{Rune.FIRE, Rune.ANIMATE},    // Fireball : self explanatory
         new Rune[]{Rune.ANIMATE},               // Telekinesis: manipulate objects at a distance
         new Rune[]{Rune.WATER},                 // Water: creates something to do with water
-        //new Rune[]{Rune.WATER, Rune.ICE},       // Ice: Creates path of ice on someplace
-        //new Rune[]{Rune.EARTH, Rune.ANIMATE},   // Earth: 
-        new Rune[]{Rune.LIGHT, Rune.ANIMATE, Rune.FIRE},   // 
-        //new Rune[]{Rune.EARTH, Rune.ANIMATE}
-
-
+        new Rune[]{Rune.LIGHT, Rune.ANIMATE, Rune.FIRE},   // Light
     };
 
-    private const int MAX_RUNE_COUNT = 5;
+    private const int MAX_RUNE_COUNT = 4;
     private int currentRune = 0;
     private List<Rune> runeQueue;
 
 	void Start () {
         RunePattern rune1 = new RunePattern(Rune.FIRE, "602", drawingFire);
         RunePattern rune2 = new RunePattern(Rune.ANIMATE, "0501", drawingAnimate);
-        RunePattern rune3 = new RunePattern(Rune.WIND, "171", drawingAnimate);
-        RunePattern rune4 = new RunePattern(Rune.WATER, "7171", drawingAnimate);
-        RunePattern rune5 = new RunePattern(Rune.LIGHT, "605", drawingAnimate);
+        RunePattern rune3 = new RunePattern(Rune.WATER, "45670", drawingAnimate);
+        RunePattern rune4 = new RunePattern(Rune.LIGHT, "605", drawingAnimate);
 
-        patternData = new RunePattern[5];
+        patternData = new RunePattern[4];
         patternData[0] = rune1;
         patternData[1] = rune2;
         patternData[2] = rune3;
         patternData[3] = rune4;
-        patternData[4] = rune5;
         Debug.Log(patternData);
 
         patternCount = patternData.Length;
@@ -459,21 +447,12 @@ public class Spellcasting : MonoBehaviour
             case Rune.ANIMATE:
                 result = "Animate";
                 break;
-            case Rune.WIND:
-                result = "Wind";
-                break;
             case Rune.WATER:
                 result = "Water";
                 break;
             case Rune.LIGHT:
                 result = "Light";
                 break;
-           /* case Rune.EARTH:
-                result = "Earth";
-                break;
-            case Rune.ICE:
-                result = "Ice";
-                break;*/
             default:
                 result = "You forgot to add it!";
                 break;
@@ -492,18 +471,25 @@ public class Spellcasting : MonoBehaviour
 
     void illuminate()
     {
-        if (objectGazed.CompareTag("TorchLighting")){
-               objectGazed.transform.Find("Torch Lighting").gameObject.SetActive(!objectGazed.transform.Find("Torch Lighting").gameObject.activeSelf);
+        if (objectGazed != null)
+        {
+            if (objectGazed.CompareTag("TorchLighting"))
+            {
+                objectGazed.transform.Find("Torch Lighting").gameObject.SetActive(!objectGazed.transform.Find("Torch Lighting").gameObject.activeSelf);
+            }
         }
     }
 
     public void water()
     {
-        if (objectGazed.CompareTag("Barrel"))
+        if (objectGazed != null)
         {
-            if (objectGazed.GetComponent<BarrelControler>().imHit)
+            if (objectGazed.CompareTag("Barrel"))
             {
-                Destroy(objectGazed.gameObject);
+                if (objectGazed.GetComponent<BarrelControler>().imHit)
+                {
+                    Destroy(objectGazed.gameObject);
+                }
             }
         }
     }
@@ -514,6 +500,7 @@ public class Spellcasting : MonoBehaviour
         playerLight.SetActive(true);
        
     }
+
     void Telekinesis() {
         if (objectGazed != null) {
             if (objectGazed.CompareTag("Barrel")){
@@ -533,6 +520,7 @@ public class Spellcasting : MonoBehaviour
     public void AssignGazedObject(GameObject receivedObject) {
         objectGazed = receivedObject;
     }
+
     public void RemoveGazedObject() {
         if (!telekinesisObjectFlag)
         {
@@ -564,7 +552,7 @@ public class Spellcasting : MonoBehaviour
                 Telekinesis();
                 break;
             case 3:
-                Debug.Log("Telekenisis cast!");
+                Debug.Log("Water cast!");
                 water();
                 break;
             case 4:
@@ -591,18 +579,22 @@ public class Spellcasting : MonoBehaviour
             }
         }
 
-        //Debug.Log("Candidates length: " + candidates.Count.ToString());
+        Debug.Log("Candidates length: " + candidates.Count.ToString());
+
+        List<int> auxCan = new List<int>(candidates);
 
         // for each rune, check for each candidate 
-        for(int rune = 0; rune < runeSeqLen; rune++)
+        for (int rune = 0; rune < runeSeqLen; rune++)
         {
-            for(int i = 0; i < candidates.Count; i++)
+            for(int i = 0; i < auxCan.Count; i++)
             {
-                //Debug.Log("Entered for loop...");
-                //Debug.Log("If statement value: " + (runeQueue[rune] != spells[candidates[i]][rune]));
-                if(runeQueue[rune] != spells[candidates[i]][rune])
+                Debug.Log("Entered for loop...");
+                Debug.Log("First value: " + runeQueue[rune]);
+                Debug.Log("Second value: " + spells[auxCan[i]][rune]);
+                Debug.Log("If statement value: " + (runeQueue[rune] != spells[auxCan[i]][rune]));
+                if(runeQueue[rune] != spells[auxCan[i]][rune])
                 {
-                    candidates.Remove(candidates[i]);
+                    candidates.Remove(auxCan[i]);
                 }
             }
         }
