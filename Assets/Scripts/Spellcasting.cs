@@ -477,9 +477,13 @@ public class Spellcasting : MonoBehaviour
             {
                 objectGazed.transform.Find("Torch Lighting").gameObject.SetActive(!objectGazed.transform.Find("Torch Lighting").gameObject.activeSelf);
             }
-            if (objectGazed.CompareTag("FireCristal"))
+            else if (objectGazed.CompareTag("FireCristal"))
             {
                 objectGazed.GetComponent<CristalActivateFire>().activateCristal();
+            }
+            else if (objectGazed.CompareTag("CandleFlames"))
+            {
+                objectGazed.transform.Find("Flames").gameObject.SetActive(!objectGazed.transform.Find("Flames").gameObject.activeSelf);
             }
         }
     }
@@ -527,7 +531,7 @@ public class Spellcasting : MonoBehaviour
             if (objectGazed.CompareTag("DoorPuzzle1"))
             {
                 Debug.Log("ENTREI IHHIHI");
-                objectGazed.transform.localPosition = new Vector3(11.542f, -2.746f, 1.577f);
+                objectGazed.transform.localPosition = new Vector3(-21.59f, -3.79f, 0.69f);
                 objectGazed.transform.localEulerAngles = new Vector3(0, -180, 0);
             }
             if (objectGazed.CompareTag("DoorPuzzle2"))

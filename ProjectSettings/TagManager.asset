@@ -9,6 +9,13 @@ TagManager:
   - Barrel
   - Fireball
   - DoorPuzzle1
+  - WaterCristal
+  - DoorPuzzle2
+  - Portal
+  - FireCristal
+  - AnimateCristal
+  - LightCristal
+  - CandleFlames
   layers:
   - Default
   - TransparentFX

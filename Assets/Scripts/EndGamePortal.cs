@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class EndGamePortal : MonoBehaviour {
@@ -19,7 +20,7 @@ public class EndGamePortal : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             Debug.Log("entered");
-            // FAZ O FIM DE JOGO SFF TENHO D BAZAR
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
