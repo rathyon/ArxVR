@@ -508,9 +508,18 @@ public class Spellcasting : MonoBehaviour
 
     void createLight()
     {
-        if (objectGazed.CompareTag("LightCristal"))
+        if (objectGazed != null)
         {
-            objectGazed.GetComponent<CristalActivateLight>().activateCristal();
+            if (objectGazed.CompareTag("LightCristal"))
+            {
+                objectGazed.GetComponent<CristalActivateLight>().activateCristal();
+            }
+            else
+            {
+                playerLightFlag = true;
+                playerLight.SetActive(true);
+                playerLight.GetComponent<Light>().intensity = 8.0f;
+            }
         }
         else
         {
@@ -518,8 +527,6 @@ public class Spellcasting : MonoBehaviour
             playerLight.SetActive(true);
             playerLight.GetComponent<Light>().intensity = 8.0f;
         }
-       
-
     }
 
     void Telekinesis() {
