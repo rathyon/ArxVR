@@ -12,6 +12,9 @@ public class BarrelControler : MonoBehaviour
     public bool gazeOnOff = false;
     public bool imHit = false;
     public bool inDoorRange = false;
+
+    private float time = 0f;
+
     // Use this for initialization
     void Start()
     {
@@ -26,10 +29,7 @@ public class BarrelControler : MonoBehaviour
     public void Spell()
     {
         //whatever the spell does
-        if (imHit)
-        {
-            
-        }
+   
     }
 
 
@@ -39,7 +39,13 @@ public class BarrelControler : MonoBehaviour
     {
         //can receive spell
         Spell();
-
+        if (imHit)
+        {
+            time += Time.deltaTime;
+            if (time > 17f) {
+                Destroy(gameObject);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)

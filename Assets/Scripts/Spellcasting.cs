@@ -125,7 +125,6 @@ public class Spellcasting : MonoBehaviour
         patternData[3] = rune4;
         patternData[4] = rune5;
         Debug.Log(patternData);
-        //patternData[2] = new RunePattern(Rune.WIND, "171", drawingWind);
 
         patternCount = patternData.Length;
         plist = new List<Vector2>();
@@ -493,7 +492,20 @@ public class Spellcasting : MonoBehaviour
 
     void illuminate()
     {
+        if (objectGazed.CompareTag("TorchLighting")){
+               objectGazed.transform.Find("Torch Lighting").gameObject.SetActive(!objectGazed.transform.Find("Torch Lighting").gameObject.activeSelf);
+        }
+    }
 
+    public void water()
+    {
+        if (objectGazed.CompareTag("Barrel"))
+        {
+            if (objectGazed.GetComponent<BarrelControler>().imHit)
+            {
+                Destroy(objectGazed.gameObject);
+            }
+        }
     }
 
     void createLight()
@@ -550,6 +562,10 @@ public class Spellcasting : MonoBehaviour
             case 2:
                 Debug.Log("Telekenisis cast!");
                 Telekinesis();
+                break;
+            case 3:
+                Debug.Log("Telekenisis cast!");
+                water();
                 break;
             case 4:
                 Debug.Log("Light cast!");
