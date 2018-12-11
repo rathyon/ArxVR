@@ -477,6 +477,10 @@ public class Spellcasting : MonoBehaviour
             {
                 objectGazed.transform.Find("Torch Lighting").gameObject.SetActive(!objectGazed.transform.Find("Torch Lighting").gameObject.activeSelf);
             }
+            if (objectGazed.CompareTag("FireCristal"))
+            {
+                objectGazed.GetComponent<CristalActivateFire>().activateCristal();
+            }
         }
     }
 
@@ -491,14 +495,26 @@ public class Spellcasting : MonoBehaviour
                     Destroy(objectGazed.gameObject);
                 }
             }
+            if (objectGazed.CompareTag("WaterCristal"))
+            {
+                objectGazed.GetComponent<CristalActivateWater>().activateCristal();
+            }
         }
     }
 
     void createLight()
     {
-        playerLightFlag = true;
-        playerLight.SetActive(true);
-        playerLight.GetComponent<Light>().intensity = 8.0f;
+        if (objectGazed.CompareTag("LightCristal"))
+        {
+            objectGazed.GetComponent<CristalActivateLight>().activateCristal();
+        }
+        else
+        {
+            playerLightFlag = true;
+            playerLight.SetActive(true);
+            playerLight.GetComponent<Light>().intensity = 8.0f;
+        }
+       
 
     }
 
@@ -508,10 +524,21 @@ public class Spellcasting : MonoBehaviour
                 objectGazed.GetComponent<Rigidbody>().isKinematic = !objectGazed.GetComponent<Rigidbody>().isKinematic;
                 telekinesisObjectFlag = !telekinesisObjectFlag;
             }
-            if (objectGazed.CompareTag("DoorPuzzle1")) {
+            if (objectGazed.CompareTag("DoorPuzzle1"))
+            {
                 Debug.Log("ENTREI IHHIHI");
-                objectGazed.transform.localPosition = new Vector3(-22.39f, -3.75f, 0.72f);
-                objectGazed.transform.localEulerAngles = new Vector3(0, -180,0);
+                objectGazed.transform.localPosition = new Vector3(11.542f, -2.746f, 1.577f);
+                objectGazed.transform.localEulerAngles = new Vector3(0, -180, 0);
+            }
+            if (objectGazed.CompareTag("DoorPuzzle2"))
+            {
+                Debug.Log("ENTREI IHHIHI");
+                objectGazed.transform.localPosition = new Vector3(8.443f, -2.602f, 1.495f);
+                objectGazed.transform.localEulerAngles = new Vector3(0, -180, 0);
+            }
+
+            if (objectGazed.CompareTag("AnimateCristal")) {
+                objectGazed.GetComponent<CristalActivateAnimate>().activateCristal();
             }
         }
 
